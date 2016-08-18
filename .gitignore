@@ -1,0 +1,5 @@
+application/logs/
+nbproject/
+.DS_Store
+.idea/
+BingSiteAuth.xml
