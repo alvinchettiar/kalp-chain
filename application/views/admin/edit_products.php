@@ -108,8 +108,8 @@
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.inspection_report_details').append('<tr>' +
                 '<td><input type="text" value="" name="item'+additional_field_count+'" style="width:200px;"></td>' +
-                '<td><input type="text" value="" name="dc_qty'+additional_field_count+'" style="width:200px;"></td>' +
-                '<td><input type="text" value="" name="recd_qty'+additional_field_count+'" style="width:200px;"></td>' +
+                '<td><input type="text" value="" class="inspection_qty" name="dc_qty'+additional_field_count+'" style="width:200px;"></td>' +
+                '<td><input type="text" value="" class="inspection_rcd_qty" name="recd_qty'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><input type="text" value="" name="recd_material_dim'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><select id="remarks'+additional_field_count+'" name="remarks'+additional_field_count+'" class="inspection_report_remarks"><option value="">Select</option><option value="0">OK<option value="1">Reject</option></select></td></tr>');
 
@@ -429,6 +429,18 @@ $(function(){
    $('input[class=supp_po_rate]').priceFormat({
         prefix: '',
         centsLimit: 2,
+        thousandsSeparator: ''
+   });
+   
+   $('input[class=inspection_qty]').priceFormat({
+        prefix: '',
+        centsLimit: 3,
+        thousandsSeparator: ''
+   });
+   
+   $('input[class=inspection_rcd_qty]').priceFormat({
+        prefix: '',
+        centsLimit: 3,
         thousandsSeparator: ''
    });
 });
