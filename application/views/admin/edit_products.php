@@ -84,10 +84,10 @@
                 console.log(additional_field_count);
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.supplier_po_details').append('<tr>' +
-                '<td><input type="text" value="" name="item'+additional_field_count+'" style="width:200px;"></td>' +
-                '<td><input type="text" value="" name="qty'+additional_field_count+'" style="width:200px;"></td>' +
-                '<td><input type="text" value="" name="unit'+additional_field_count+'" style="width:200px;"></td>'+
-                '<td><input type="text" value="" name="rate'+additional_field_count+'" style="width:200px;"></td></tr>');
+                '<td><input type="text" name="item'+additional_field_count+'" style="width:200px;"></td>' +
+                '<td><input type="text" class="supp_po_qty" name="qty'+additional_field_count+'" style="width:200px;"></td>' +
+                '<td><input type="text" pattern="[A-Za-z]{0,50}" title="Only alphabets allowed. Max count is 50" name="unit'+additional_field_count+'" style="width:200px;"></td>'+
+                '<td><input type="text" class="supp_po_rate" name="rate'+additional_field_count+'" style="width:200px;"></td></tr>');
 
                 if(additional_field_count <= 0) {
                     $('#new_record_count').val(title);
@@ -419,6 +419,18 @@ $(function(){
         prefix: '',
         thousandsSeparator: ','
    }); 
+   
+   $('input[class=supp_po_qty]').priceFormat({
+        prefix: '',
+        centsLimit: 3,
+        thousandsSeparator: ''
+   });
+   
+   $('input[class=supp_po_rate]').priceFormat({
+        prefix: '',
+        centsLimit: 2,
+        thousandsSeparator: ''
+   });
 });
 </script>
 

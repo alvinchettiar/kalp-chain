@@ -2075,9 +2075,9 @@ class Admin_controller extends CI_Controller{
                         $this->html_wo .= '<tr>';
 
                         $this->html_wo .= '<td><input type="text" value="'.$item.'" name="item'.$key.'" style="width:200px;"></td>';
-                        $this->html_wo .= '<td><input type="text" value="'.$qty.'" name="qty'.$key.'" style="width:200px;"></td>';
-                        $this->html_wo .= '<td><input type="text" value="'.$unit.'" name="unit'.$key.'" style="width:200px;"></td>';
-                        $this->html_wo .= '<td><input type="text" value="'.$rate.'" name="rate'.$key.'" style="width:200px;"></td></tr>';
+                        $this->html_wo .= '<td><input type="text" class="supp_po_qty" value="'.$qty.'" name="qty'.$key.'" style="width:200px;"></td>';
+                        $this->html_wo .= '<td><input type="text" pattern="[A-Za-z]{0,50}" title="Only alphabets allowed. Max count is 50" value="'.$unit.'" name="unit'.$key.'" style="width:200px;"></td>';
+                        $this->html_wo .= '<td><input type="text" class="supp_po_rate" value="'.$rate.'" name="rate'.$key.'" style="width:200px;"></td></tr>';
 
 
                     }
@@ -2087,10 +2087,10 @@ class Admin_controller extends CI_Controller{
 
                     $this->html_wo .= '<tr>';
 
-                    $this->html_wo .= '<td><input type="text"  value="" name="item1" style="width:200px;"></td>';
-                    $this->html_wo .= '<td><input type="text" value="" name="qty1" style="width:200px;"></td>';
-                    $this->html_wo .= '<td><input type="text"  value="" name="unit1" style="width:200px;"></td>';
-                    $this->html_wo .= '<td><input type="text"  value="" name="rate1" style="width:200px;"></td></tr>';
+                    $this->html_wo .= '<td><input type="text" name="item1" style="width:200px;"></td>';
+                    $this->html_wo .= '<td><input type="text" class="supp_po_qty" name="qty1" style="width:200px;"></td>';
+                    $this->html_wo .= '<td><input type="text" pattern="[A-Za-z]{0,50}" title="Only alphabets allowed. Max count is 50" name="unit1" style="width:200px;"></td>';
+                    $this->html_wo .= '<td><input type="text" class="supp_po_rate" name="rate1" style="width:200px;"></td></tr>';
 
 
                 }
