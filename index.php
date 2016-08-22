@@ -68,7 +68,7 @@ define('ENVIRONMENT', (strpos($http_host, 'local') !== false ? 'development' : '
 switch (ENVIRONMENT)
 {
 	case 'development':
-		error_reporting(-1);
+		error_reporting(E_ERROR);
 		ini_set('display_errors', 1);
 	break;
 

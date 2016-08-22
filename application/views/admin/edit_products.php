@@ -445,6 +445,18 @@ $(function(){
         thousandsSeparator: ''
    });
 });
+
+/*
+ * Adding script to remove readonly attr from format_no column
+ * @author Alvin
+ * @date 22/08/2016
+ */
+
+$(function(){
+   $('#activate_format_no').click(function(data){
+       $('input[name=format_no]').removeAttr('readonly');
+   });
+});
 </script>
 
 </body>

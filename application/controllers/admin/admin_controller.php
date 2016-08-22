@@ -2105,6 +2105,11 @@ class Admin_controller extends CI_Controller{
               return $this->createTerms('terms_n_cond', $post_array, $this->data['supplier_po']);
 
             });
+            
+            $crud->callback_field('format_no', function($post_array){
+                $format_no = (!$post_array ? "FORMAT NO: QR/PURS/04. Rev.00" : $post_array);
+                return '<input type="input" style="width:200px; height:25px;" name="format_no" class="format_no_class" id="format_no_class" value="'.$format_no.'" readonly="readonly" /> <input type="button" name="activate_format_no" id="activate_format_no" value="Edit" />';
+            });
 
             /*$crud->callback_field('size_thickness_type', function($post_array){
                 $this->html_wo = '<select name="size_thickness_type">';
@@ -2516,6 +2521,10 @@ class Admin_controller extends CI_Controller{
                 return $this->html_wo;
             });*/
 
+            $crud->callback_field('format_no', function($post_array){
+                $format_no = (!$post_array ? "FORMAT NO: QR/PURS/03. Rev.00" : $post_array);
+                return '<input type="input" style="width:200px; height:25px;" name="format_no" class="format_no_class" id="format_no_class" value="'.$format_no.'" readonly="readonly" /> <input type="button" name="activate_format_no" id="activate_format_no" value="Edit" />';
+            });
             $crud->callback_insert(array($this, 'saveInspectionReport'));
             $crud->callback_update(array($this, 'saveInspectionReport'));
 
