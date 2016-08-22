@@ -493,13 +493,13 @@ class Admin_controller extends CI_Controller{
 
             //getting enquiry number from the URL
             $this->data['quote'] = $this->admin_details->get_user_column_one('id', $quote_id, 'quotation');
-            $this->data['enquiry_no'] = ($this->input->get('enquiry_no')) ? @$this->input->get('enquiry_no') : @$this->data['quote'][0]['enquiry_no'];
-            $this->data['enquiry_details'] = @$this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
-            $this->data['client_details'] = @$this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
-            $this->data['enquiry_qty_type'] = @$this->data['enquiry_details'][0]['qty_type'];
-            $this->data['enquiry_qty'] = @$this->data['enquiry_details'][0]['qty'];
-            $this->data['enquiry_moc'] = @$this->data['enquiry_details'][0]['MOC'];
-            $this->data['enquiry_pitch'] = @$this->data['enquiry_details'][0]['pitch'];
+            $this->data['enquiry_no'] = ($this->input->get('enquiry_no')) ? $this->input->get('enquiry_no') : $this->data['quote'][0]['enquiry_no'];
+            $this->data['enquiry_details'] = $this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
+            $this->data['client_details'] = $this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
+            $this->data['enquiry_qty_type'] = $this->data['enquiry_details'][0]['qty_type'];
+            $this->data['enquiry_qty'] = $this->data['enquiry_details'][0]['qty'];
+            $this->data['enquiry_moc'] = $this->data['enquiry_details'][0]['MOC'];
+            $this->data['enquiry_pitch'] = $this->data['enquiry_details'][0]['pitch'];
 
             /*echo "<pre>";
             print_r($this->data['enquiry_details']);
@@ -535,10 +535,10 @@ class Admin_controller extends CI_Controller{
             });
 
             $crud->callback_field('client_id', function(){
-                return '<input type="text" maxlength="200" value="'.@$this->data['enquiry_details'][0]['client_id'].'" name="client_id" readonly> | Client Name : '.@$this->data['client_details'][0]['client_name'];
+                return '<input type="text" maxlength="200" value="'.$this->data['enquiry_details'][0]['client_id'].'" name="client_id" readonly> | Client Name : '.@$this->data['client_details'][0]['client_name'];
             });
             $crud->callback_field('enquiry_date', function(){
-                return '<input type="text" maxlength="50" value="'.@$this->data['enquiry_details'][0]['date'].'" name="enquiry_date" readonly>';
+                return '<input type="text" maxlength="50" value="'.$this->data['enquiry_details'][0]['date'].'" name="enquiry_date" readonly>';
             });
 
             $crud->callback_field('quotation_no', function($post_array){
@@ -718,7 +718,7 @@ class Admin_controller extends CI_Controller{
 
                 $html_elements .= '<select name="bush_type" style="width:100px;">';
                 foreach ($pitch_types as $key => $val) {
-                    if(@$this->data['bush_type']==$val['id']) {
+                    if($this->data['bush_type']==$val['id']) {
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
                     else{
@@ -736,7 +736,7 @@ class Admin_controller extends CI_Controller{
                 $pin3 = (isset($this->data['pin3'])) ? $this->data['pin3'] : '';
 
                 //checking for additional fields
-                $additional_fields = @json_decode($this->data['additional_fields'], true);
+                $additional_fields = json_decode($this->data['additional_fields'], true);
                 $additional_field_count = count($additional_fields);
                 $html_elements = '<input type="hidden" name="new_record_count" value="'.$additional_field_count.'" id="new_record_count" /><input type="text" maxlength="200" value="' . $pin . '" name="pin" style="width:200px;"> mm Dia X <input type="text" maxlength="200" value="' . $pin2 . '" name="pin2" style="width:200px;"> mm long ';
 
@@ -745,7 +745,7 @@ class Admin_controller extends CI_Controller{
 
                 $html_elements .= '<select name="pin_type" style="width:100px;">';
                 foreach ($pitch_types as $key => $val) {
-                    if(@$this->data['pin_type']==$val['id']) {
+                    if($this->data['pin_type']==$val['id']) {
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
                     else{
@@ -785,7 +785,7 @@ class Admin_controller extends CI_Controller{
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
                     else{*/
-                        if(@$this->data['enquiry_qty_type']==$val['id']) {
+                        if($this->data['enquiry_qty_type']==$val['id']) {
                             $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                         }
                         /*else{
@@ -807,23 +807,23 @@ class Admin_controller extends CI_Controller{
                 $qty_types = $this->getQuoteMiscellaneous('qty');
                 $html_elements .= '<select name="rate_type" style="width:100px;">';
                 foreach ($qty_types as $key => $val) {
-                    if(@$this->data['enquiry_qty_type']==$val['id']){
+                    if($this->data['enquiry_qty_type']==$val['id']){
                         switch($val['type']){
                             case 'Ft':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Rs/Ft', 'rate');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'Kgs':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Rs/Kgs', 'rate');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'Mtr':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Rs/Mtr', 'rate');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'no':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Rs/No', 'rate');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                         }
                     }
@@ -883,7 +883,7 @@ class Admin_controller extends CI_Controller{
                 $html_elements .= '<select name="mvat_cst_type" id="mvat_cst_type" style="width:100px;">';
                 foreach ($pitch_types as $key => $val) {
 
-                    if(@$this->data['mvat_cst_type']==$val['id']) {
+                    if($this->data['mvat_cst_type']==$val['id']) {
                         //echo "IN IF";
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
@@ -906,7 +906,7 @@ class Admin_controller extends CI_Controller{
                 $html_elements .= '<select name="delivery_type" style="width:100px;">';
                 foreach ($delivery_types as $key => $val) {
 
-                    if(@$this->data['delivery_type']==$val['id']) {
+                    if($this->data['delivery_type']==$val['id']) {
                         //echo "IN IF";
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
@@ -929,29 +929,29 @@ class Admin_controller extends CI_Controller{
                 $qty_types = $this->getQuoteMiscellaneous('qty');
                 $html_elements .= '<select name="weight_type" style="width:100px;">';
                 foreach ($qty_types as $key => $val) {
-                    if(@$this->data['enquiry_qty_type']==$val['id']){
+                    if($this->data['enquiry_qty_type']==$val['id']){
                         switch($val['type']){
                             case 'Ft':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Kgs/Ft', 'weight');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'Kgs':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Kgs/Kgs', 'weight');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'Mtr':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Kgs/Mtr', 'weight');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                             case 'no':
                                 $rate_details = $this->admin_details->get_user_column_one('type', 'Kgs/No', 'weight');
-                                $html_elements .= '<option value="' . @$rate_details[0]['id'] . '" selected>' . @$rate_details[0]['type'] . '</option>';
+                                $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
                                 break;
                         }
                     }
                 }
                 /*foreach ($pitch_types as $key => $val) {
-                    if(@$this->data['weight_type']==$val['id']) {
+                    if($this->data['weight_type']==$val['id']) {
                         $html_elements .= '<option value="' . $val['id'] . '" selected>' . $val['type'] . '</option>';
                     }
                     else{
@@ -1117,7 +1117,7 @@ class Admin_controller extends CI_Controller{
             'rate_type' => $rate_type,
             'mvat_cst_type' => $mvat_cst_type,
             'weight_type' => $weight_type,
-            'additional_fields' => @json_encode($additional_fields)
+            'additional_fields' => json_encode($additional_fields)
 
         );
 
@@ -1158,7 +1158,7 @@ class Admin_controller extends CI_Controller{
             'rate_type' => $rate_type,
             'mvat_cst_type' => $mvat_cst_type,
             'weight_type' => $weight_type,
-            'additional_fields' => @json_encode($additional_fields)
+            'additional_fields' => json_encode($additional_fields)
 
         );
 
@@ -1281,32 +1281,32 @@ class Admin_controller extends CI_Controller{
             //getting enquiry number from the URL
             $this->data['client_po'] = $this->admin_details->get_user_column_one('id', $client_po_id, 'po_client');
 
-            $this->data['quotation_no'] = ($this->input->get('quotation_no')) ? @$this->input->get('quotation_no') : @$this->data['client_po'][0]['quotation_id'];
+            $this->data['quotation_no'] = ($this->input->get('quotation_no')) ? $this->input->get('quotation_no') : $this->data['client_po'][0]['quotation_id'];
 
             //checking if quotation no is quotation id
             if(stripos($this->data['quotation_no'], 'KALPQUOTE') === false){
-                $this->data['quotation_details'] = @$this->admin_details->get_user_column_one('id', $this->data['quotation_no'], 'quotation');
-                $this->data['quotation_id'] = @$this->data['quotation_details'][0]['id'];
-                $this->data['quotation_no'] = @$this->data['quotation_details'][0]['quotation_no'];
-                $this->data['enquiry_no'] = @$this->data['quotation_details'][0]['enquiry_no'];
-                $this->data['enquiry_details'] = @$this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
-                $this->data['client_details'] = @$this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
-                $this->data['enquiry_qty'] = @$this->data['enquiry_details'][0]['qty'];
-                $this->data['enquiry_qty_type'] = @$this->data['enquiry_details'][0]['qty_type'];
-                $this->data['enquiry_moc'] = @$this->data['enquiry_details'][0]['MOC'];
-                $this->data['enquiry_pitch'] = @$this->data['enquiry_details'][0]['pitch'];
+                $this->data['quotation_details'] = $this->admin_details->get_user_column_one('id', $this->data['quotation_no'], 'quotation');
+                $this->data['quotation_id'] = $this->data['quotation_details'][0]['id'];
+                $this->data['quotation_no'] = $this->data['quotation_details'][0]['quotation_no'];
+                $this->data['enquiry_no'] = $this->data['quotation_details'][0]['enquiry_no'];
+                $this->data['enquiry_details'] = $this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
+                $this->data['client_details'] = $this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
+                $this->data['enquiry_qty'] = $this->data['enquiry_details'][0]['qty'];
+                $this->data['enquiry_qty_type'] = $this->data['enquiry_details'][0]['qty_type'];
+                $this->data['enquiry_moc'] = $this->data['enquiry_details'][0]['MOC'];
+                $this->data['enquiry_pitch'] = $this->data['enquiry_details'][0]['pitch'];
             }
             else
             {
-                $this->data['quotation_details'] = @$this->admin_details->get_user_column_one('quotation_no', $this->data['quotation_no'], 'quotation');
-                $this->data['quotation_id'] = @$this->data['quotation_details'][0]['id'];
-                $this->data['enquiry_no'] = @$this->data['quotation_details'][0]['enquiry_no'];
-                $this->data['enquiry_details'] = @$this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
-                $this->data['client_details'] = @$this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
-                $this->data['enquiry_qty'] = @$this->data['enquiry_details'][0]['qty'];
-                $this->data['enquiry_qty_type'] = @$this->data['enquiry_details'][0]['qty_type'];
-                $this->data['enquiry_moc'] = @$this->data['enquiry_details'][0]['MOC'];
-                $this->data['enquiry_pitch'] = @$this->data['enquiry_details'][0]['pitch'];
+                $this->data['quotation_details'] = $this->admin_details->get_user_column_one('quotation_no', $this->data['quotation_no'], 'quotation');
+                $this->data['quotation_id'] = $this->data['quotation_details'][0]['id'];
+                $this->data['enquiry_no'] = $this->data['quotation_details'][0]['enquiry_no'];
+                $this->data['enquiry_details'] = $this->admin_details->get_user_column_one('enquiry_no', $this->data['enquiry_no'], 'enquiry');
+                $this->data['client_details'] = $this->admin_details->get_user_column_one('id', $this->data['enquiry_details'][0]['client_id'], 'clients');
+                $this->data['enquiry_qty'] = $this->data['enquiry_details'][0]['qty'];
+                $this->data['enquiry_qty_type'] = $this->data['enquiry_details'][0]['qty_type'];
+                $this->data['enquiry_moc'] = $this->data['enquiry_details'][0]['MOC'];
+                $this->data['enquiry_pitch'] = $this->data['enquiry_details'][0]['pitch'];
             }
 
             /*echo "<pre>";
@@ -1332,7 +1332,7 @@ class Admin_controller extends CI_Controller{
             $crud->callback_add_field('wo_no', array($this, 'generateWorkOrderNo'));
 
             $crud->callback_field('client_id', function(){
-                return '<input type="text" maxlength="200" value="'.@$this->data['enquiry_details'][0]['client_id'].'" name="client_id" readonly> | Client Name : '.@$this->data['client_details'][0]['client_name'];
+                return '<input type="text" maxlength="200" value="'.$this->data['enquiry_details'][0]['client_id'].'" name="client_id" readonly> | Client Name : '.$this->data['client_details'][0]['client_name'];
             });
 
             $crud->callback_field('quotation_id', function($post_array){
@@ -2387,10 +2387,11 @@ class Admin_controller extends CI_Controller{
 
                 //if(!empty($this->data['supplier_po_details'])){
                 //checking for additional fields
-                $additional_fields = @json_decode($this->data['inspection_report'][0]['inspection_report_details'], true);
-                $additional_field_count = (count($additional_fields) == 0) ? 1 : count($additional_fields);
+                $additional_fields = json_decode($this->data['inspection_report'][0]['inspection_report_details'], true);
+//                $additional_field_count = (count($additional_fields) == 0) ? 1 : count($additional_fields);
+                $additional_field_count = (count($this->data['supplier_po_details']) == 0) ? 1 : count($this->data['supplier_po_details']);
                 $this->html_wo .= '<input type="hidden" name="new_record_count" value="'.$additional_field_count.'" id="new_record_count" />';
-print_r($additional_fields);
+
                 //adding additional fields to the edit form
                 if(!empty($this->data['supplier_po_details'])){
 
@@ -2407,7 +2408,6 @@ print_r($additional_fields);
                         $remarks_remarks = $val['remarks_remarks'];
                         */
                           
-                          print_r($additional_fields[$key]) . "<br>";
                         $item = $val->item;
                         $qty = $val->qty;
                         $dc_qty = $additional_fields[$key]['dc_qty'];
@@ -2436,7 +2436,7 @@ print_r($additional_fields);
                         $this->html_wo .= '<td><input type="text" class="inspection_rcd_qty" value="'.$recd_qty.'" name="recd_qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" value="'.$recd_material_dim.'" name="recd_material_dim'.$key.'" style="width:200px;"></td>';
                         //$this->html_wo .= '<td><input type="text" value="'.$remarks.'" name="remarks'.$key.'" style="width:200px;"></td></tr>';
-                        $this->html_wo .= '<td><select id="remarks'.$key.'" name="remarks'.$key.'" class="inspection_report_remarks"><option value="'.$ok.'" '.@$selected_ok.'>OK</option><option value="'.$reject.'" '.@$selected_reject.'>Reject</option></select>';
+                        $this->html_wo .= '<td><select id="remarks'.$key.'" name="remarks'.$key.'" class="inspection_report_remarks"><option value="'.$ok.'" '.$selected_ok.'>OK</option><option value="'.$reject.'" '.$selected_reject.'>Reject</option></select>';
                         if($remarks=='1'){
                             $this->html_wo .= '<textarea name="remarks_remarks'.$key.'" id="remarks_remarks'.$key.'" style="width:200px;">'.$remarks_remarks.'</textarea>';
                         }
@@ -2465,7 +2465,7 @@ print_r($additional_fields);
 
                 }
                 //}
-                $this->html_wo .= '<tr><td colspan="7"><input type="button" name="add_inspection_report_details" id="add_inspection_report_details_record" value="Add Record" /> </td></tr>';
+//                $this->html_wo .= '<tr><td colspan="7"><input type="button" name="add_inspection_report_details" id="add_inspection_report_details_record" value="Add Record" /> </td></tr>';
                 $this->html_wo .= '</table>';
 
                 return $this->html_wo;
@@ -2537,12 +2537,9 @@ print_r($additional_fields);
 
         $id = $this->uri->segment(4);
 
-        print_r($post_array);
-        exit;
-
         //looping/collecting dynamically generated data
         $new_record_count = $post_array['new_record_count'];
-        for ($i = 1; $i <= $new_record_count; $i++) {
+        for ($i = 0; $i <= $new_record_count; $i++) {
             if(isset($post_array['item' . $i]) && $post_array['item' . $i] != '') {
                 $additional_fields[] = array(
                     "item" => $post_array['item' . $i],
@@ -2680,7 +2677,7 @@ print_r($additional_fields);
 
             $crud->callback_field('outsource_details', function ($post_array) {
                 //checking for additional fields
-                $additional_fields = @json_decode($this->data['outsource'][0]['outsource_details'], true);
+                $additional_fields = json_decode($this->data['outsource'][0]['outsource_details'], true);
                 $additional_field_count = (count($additional_fields) == 0) ? 1 : count($additional_fields);
                 $this->html_wo .= '<input type="hidden" name="new_record_count" value="'.$additional_field_count.'" id="new_record_count" />';
 
@@ -2752,7 +2749,7 @@ print_r($additional_fields);
                         $this->html_wo .= '<td><input type="text" class="recd_dim4_outsource" value="'.$require_dim4.'" name="recd_dim4-'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" class="recd_dim5_outsource" value="'.$require_dim5.'" name="recd_dim5-'.$key.'" style="width:200px;"></td>';
                         //$this->html_wo .= '<td><input type="text" value="'.$remarks.'" name="remarks'.$key.'" style="width:200px;"></td></tr>';
-                        $this->html_wo .= '<td><select id="remarks'.$key.'" name="remarks'.$key.'" class="outsource_remarks"><option value="'.$ok.'" '.@$selected_ok.'>OK</option><option value="'.$reject.'" '.@$selected_reject.'>Reject</option></select>';
+                        $this->html_wo .= '<td><select id="remarks'.$key.'" name="remarks'.$key.'" class="outsource_remarks"><option value="'.$ok.'" '.$selected_ok.'>OK</option><option value="'.$reject.'" '.$selected_reject.'>Reject</option></select>';
                         if($remarks=='1'){
                             $this->html_wo .= '<textarea name="remarks_remarks'.$key.'" id="remarks_remarks'.$key.'" style="width:200px;">'.$remarks_remarks.'</textarea>';
                         }
@@ -2941,7 +2938,7 @@ print_r($additional_fields);
             $terms = (isset($this->data[$column_name])) ? $this->data[$column_name] : $post_array;
 
             //checking for additional fields
-            $additional_fields = @json_decode($terms, true);
+            $additional_fields = json_decode($terms, true);
             //print_r($additional_fields);
 
             $additional_field_count = (count($additional_fields) == 0) ? 1 : count($additional_fields);
