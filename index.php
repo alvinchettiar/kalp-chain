@@ -54,7 +54,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 //	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-define('ENVIRONMENT', stripos($_SERVER['HTTP_HOST'], 'local') >= 0 ? 'development' : 'production');
+$http_host = $_SERVER['HTTP_HOST'];
+define('ENVIRONMENT', (strpos($http_host, 'local') !== false ? 'development' : 'production'));
 
 /*
  *---------------------------------------------------------------

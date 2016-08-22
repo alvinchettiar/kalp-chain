@@ -2326,6 +2326,13 @@ class Admin_controller extends CI_Controller{
                 $this->data['supplier_po'] = $this->admin_details->get_user_column_one('id', $this->data['supplier_po_id'], 'po_supplier');
                 $this->data['supplier_po_no'] = $this->data['supplier_po'][0]['po_no'];
                 $this->data['supplier_id'] = $this->data['supplier_po'][0]['supplier_id'];
+                
+                //getting supplier_po_details column values and decoding it to create array from json string.
+                $this->data['supplier_po_details'] = json_decode($this->data['supplier_po'][0]['supplier_po_details']);
+//                echo "<pre>";
+//                print_r($this->data['supplier_po_details']);
+                //exit;
+                
                 $this->data['suppliers'] = $this->admin_details->get_user_column_one('id', $this->data['supplier_id'], 'suppliers');
                 $this->data['supplier_name'] = $this->data['suppliers'][0]['supplier_name'];
             }
@@ -2366,6 +2373,7 @@ class Admin_controller extends CI_Controller{
 
             $this->html_wo .= '<table border="1" cellpadding="5" style="border-collapse: collapse; width: 800px;" class="inspection_report_details">';
             $this->html_wo .= '<th>Item</th>';
+            $this->html_wo .= '<th>Ord Qty.</th>';
             $this->html_wo .= '<th>DC Qty.</th>';
             $this->html_wo .= '<th>Recd Qty</th>';
             $this->html_wo .= '<th>Recd Material Dimention</th>';
@@ -2377,22 +2385,36 @@ class Admin_controller extends CI_Controller{
                 //$this->html_wo .= '<tr ><td><input type="text" maxlength="200" value="' . $delivery . '" name="delivery" style="width:200px;"> </td>';
                 //$this->html_wo .= '<input type="hidden" name="new_record_count" value="0" id="new_record_count" />';
 
+                //if(!empty($this->data['supplier_po_details'])){
                 //checking for additional fields
                 $additional_fields = @json_decode($this->data['inspection_report'][0]['inspection_report_details'], true);
                 $additional_field_count = (count($additional_fields) == 0) ? 1 : count($additional_fields);
                 $this->html_wo .= '<input type="hidden" name="new_record_count" value="'.$additional_field_count.'" id="new_record_count" />';
-
+print_r($additional_fields);
                 //adding additional fields to the edit form
-                if(!empty($additional_fields)){
+                if(!empty($this->data['supplier_po_details'])){
 
-                    foreach($additional_fields as $key => $val){
-                        $key++;
+//                    foreach($additional_fields as $key => $val){
+                        
+                      foreach($this->data['supplier_po_details'] as $key => $val){
+                        //$key++;
+                        /*
                         $item = $val['item'];
                         $dc_qty = $val['dc_qty'];
                         $recd_qty = $val['recd_qty'];
                         $recd_material_dim = $val['recd_material_dim'];
                         $remarks = $val['remarks'];
                         $remarks_remarks = $val['remarks_remarks'];
+                        */
+                          
+                          print_r($additional_fields[$key]) . "<br>";
+                        $item = $val->item;
+                        $qty = $val->qty;
+                        $dc_qty = $additional_fields[$key]['dc_qty'];
+                        $recd_qty = $additional_fields[$key]['recd_qty'];
+                        $recd_material_dim = $additional_fields[$key]['recd_material_dim'];
+                        $remarks = $additional_fields[$key]['remarks'];
+                        $remarks_remarks = $additional_fields[$key]['remarks_remarks'];
                         //echo "$key :" . $remarks."<br>";
                         if($remarks == '0'){
                             $selected_ok = 'selected';
@@ -2409,6 +2431,7 @@ class Admin_controller extends CI_Controller{
                         $this->html_wo .= '<tr>';
 
                         $this->html_wo .= '<td><input type="text" value="'.$item.'" name="item'.$key.'" style="width:200px;"></td>';
+                        $this->html_wo .= '<td><input type="text" value="'.$qty.'" name="qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" class="inspection_qty" value="'.$dc_qty.'" name="dc_qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" class="inspection_rcd_qty" value="'.$recd_qty.'" name="recd_qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" value="'.$recd_material_dim.'" name="recd_material_dim'.$key.'" style="width:200px;"></td>';
@@ -2441,6 +2464,7 @@ class Admin_controller extends CI_Controller{
 
 
                 }
+                //}
                 $this->html_wo .= '<tr><td colspan="7"><input type="button" name="add_inspection_report_details" id="add_inspection_report_details_record" value="Add Record" /> </td></tr>';
                 $this->html_wo .= '</table>';
 
@@ -2513,7 +2537,8 @@ class Admin_controller extends CI_Controller{
 
         $id = $this->uri->segment(4);
 
-        //print_r($id);
+        print_r($post_array);
+        exit;
 
         //looping/collecting dynamically generated data
         $new_record_count = $post_array['new_record_count'];

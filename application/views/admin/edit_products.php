@@ -39,7 +39,7 @@
             $('#pin_field_box').append('<div id="add_record_button"><input type="button" name="add_record" id="add_record" value="Add Record" /></div>');
             var title = 0;
             var additional_field_count = parseInt($('#new_record_count').val());
-            console.log(additional_field_count);
+//            console.log(additional_field_count);
             $('#add_record').click(function(){
                 title++;
                 additional_field_count++;
@@ -58,7 +58,7 @@
             $('#add_supplier_enquiry_details_record').click(function(){
                 title++;
                 additional_field_count++;
-                console.log(additional_field_count);
+//                console.log(additional_field_count);
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.supplier_enquiry_details').append('<tr>' +
                 '<td><input type="text" value="" name="item'+additional_field_count+'" style="width:200px;"></td>' +
@@ -81,7 +81,7 @@
             $('#add_supplier_po_details_record').click(function(){
                 title++;
                 additional_field_count++;
-                console.log(additional_field_count);
+//                console.log(additional_field_count);
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.supplier_po_details').append('<tr>' +
                 '<td><input type="text" name="item'+additional_field_count+'" style="width:200px;"></td>' +
@@ -104,10 +104,11 @@
                 //alert("HI");
                 title++;
                 additional_field_count++;
-                console.log(additional_field_count);
+//                console.log(additional_field_count);
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.inspection_report_details').append('<tr>' +
                 '<td><input type="text" value="" name="item'+additional_field_count+'" style="width:200px;"></td>' +
+                '<td><input type="text" value="" name="qty'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><input type="text" value="" class="inspection_qty" name="dc_qty'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><input type="text" value="" class="inspection_rcd_qty" name="recd_qty'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><input type="text" value="" name="recd_material_dim'+additional_field_count+'" style="width:200px;"></td>' +
@@ -199,7 +200,7 @@
             $('#add_wo_mis_record').click(function(){
                 title++;
                 additional_field_count++;
-                console.log(additional_field_count);
+//                console.log(additional_field_count);
                 //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
                 $('.wo_miscellaneous').append('<tr><td><input type="text" maxlength="200" value="" name="pn'+additional_field_count+'" style="width:200px;"></td>' +
                 '<td><input type="text" maxlength="100" value="" name="rq'+additional_field_count+'" style="width:100px;"></td>' +
@@ -252,7 +253,7 @@
 
             //setting auto MVAT and CST value based on selection
             $('#mvat_cst_type').on('change', function(e){
-                console.log($(this).val());
+//                console.log($(this).val());
                 var value = $(this).val();
                 switch (value){
                     case "1":
@@ -354,7 +355,7 @@
             switch (value){
                 case "1":
                     //$(this).append('<input type="text" value="'+value+'" name="remarks'+element_id+'" style="width:200px;">');
-                    console.log($(this).parent());
+//                    console.log($(this).parent());
                     var parent = $(this).parent();
                     //parent.append('<textarea name="remarks_'+element_id+'" id="remarks_'+element_id+'" style="width:200px;"></textarea>');
                     parent.append(addTextArea(element_id));
@@ -414,7 +415,7 @@
     });*/
 $(function(){
    var rate = document.getElementsByName('rate');
-   console.log(rate);
+//   console.log(rate);
    $('input[name=rate]').priceFormat({
         prefix: '',
         thousandsSeparator: ','
