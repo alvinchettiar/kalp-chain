@@ -2436,8 +2436,8 @@ class Admin_controller extends CI_Controller{
                         $this->html_wo .= '<tr>';
 
                         $this->html_wo .= '<td><input type="text" value="'.$item.'" name="item'.$key.'" style="width:200px;"></td>';
-                        $this->html_wo .= '<td><input type="text" value="'.$qty.'" name="qty'.$key.'" style="width:200px;"></td>';
-                        $this->html_wo .= '<td><input type="text" class="inspection_qty" value="'.$dc_qty.'" name="dc_qty'.$key.'" style="width:200px;"></td>';
+                        $this->html_wo .= '<td><input type="text" class="inspection_qty" value="'.$qty.'" name="qty'.$key.'" style="width:200px;"></td>';
+                        $this->html_wo .= '<td><input type="text" class="inspection_dc_qty" value="'.$dc_qty.'" name="dc_qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" class="inspection_rcd_qty" value="'.$recd_qty.'" name="recd_qty'.$key.'" style="width:200px;"></td>';
                         $this->html_wo .= '<td><input type="text" value="'.$recd_material_dim.'" name="recd_material_dim'.$key.'" style="width:200px;"></td>';
                         //$this->html_wo .= '<td><input type="text" value="'.$remarks.'" name="remarks'.$key.'" style="width:200px;"></td></tr>';
@@ -2462,7 +2462,8 @@ class Admin_controller extends CI_Controller{
                     $this->html_wo .= '<tr>';
 
                     $this->html_wo .= '<td><input type="text"  value="" name="item1" style="width:200px;"></td>';
-                    $this->html_wo .= '<td><input type="text" class="inspection_qty" value="" name="dc_qty1" style="width:200px;"></td>';
+                    $this->html_wo .= '<td><input type="text" class="inspection_qty" value="" name="qty1" style="width:200px;"></td>';
+                    $this->html_wo .= '<td><input type="text" class="inspection_dc_qty" value="" name="dc_qty1" style="width:200px;"></td>';
                     $this->html_wo .= '<td><input type="text" class="inspection_rcd_qty"  value="" name="recd_qty1" style="width:200px;"></td>';
                     $this->html_wo .= '<td><input type="text"  value="" name="recd_material_dim1" style="width:200px;"></td>';
                     $this->html_wo .= '<td><select id="remarks1" name="remarks1" class="inspection_report_remarks"><option value="">Select</option><option value="0">OK</option><option value="1">Reject</option></select></td></tr>';

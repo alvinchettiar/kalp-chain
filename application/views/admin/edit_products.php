@@ -342,6 +342,7 @@
     <?php echo $output; ?>
 </div>
 <script src="<?php echo base_url(); ?>extras/js/jquery.price_format.2.0.min.js" type="text/javascript"></script>    
+<script src="<?php echo base_url(); ?>extras/js/accounting.min.js" type="text/javascript"></script>
 <script>
     //$(document).on({'change': function(){                 //1st Method:for dynamically created elements after the the DOM is loaded
     $(document).on('change', 'select.inspection_report_remarks, select.outsource_remarks', function(){          //2nd Method:for dynamically created elements after the the DOM is loaded
@@ -416,34 +417,69 @@
 $(function(){
    var rate = document.getElementsByName('rate');
 //   console.log(rate);
+    
+    $('input[name=rate]').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    });
+    
+    $('.supp_po_qty').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    });
+    
+    $('.supp_po_rate').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 2, ""));
+    });
+    
+    $('.inspection_dc_qty').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    });
+    
+    $('.inspection_qty').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    });
+    
+    $('.inspection_rcd_qty').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    });
+    
+    /*
    $('input[name=rate]').priceFormat({
         prefix: '',
         thousandsSeparator: ','
    }); 
    
    $('input[class=supp_po_qty]').priceFormat({
+       defaultValue: 0,
         prefix: '',
+        limit: 6,
         centsLimit: 3,
         thousandsSeparator: ''
    });
    
    $('input[class=supp_po_rate]').priceFormat({
+       defaultValue: 0,
         prefix: '',
+        limit: 6,
         centsLimit: 2,
         thousandsSeparator: ''
    });
    
    $('input[class=inspection_qty]').priceFormat({
+       defaultValue: 0,
         prefix: '',
+        limit: 6,
         centsLimit: 3,
         thousandsSeparator: ''
    });
    
    $('input[class=inspection_rcd_qty]').priceFormat({
+       defaultValue: 0,
         prefix: '',
+        limit: 6,
         centsLimit: 3,
         thousandsSeparator: ''
    });
+   */     
 });
 
 /*
