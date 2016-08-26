@@ -42,7 +42,7 @@
             <td><strong>LR No.</strong></td>
             <td><?php echo $inspection_report[0]['lr_no'];?></td>
             <td align="right" style="width:15em;"><strong>LR Date </strong></td>
-            <td align="right"><?php echo date('d-m-Y', strtotime($inspection_report[0]['lr_date']));?></td>
+            <td align="right"><?php echo ($inspection_report[0]['lr_date'] <> '0000-00-00') ? date('d-m-Y', strtotime($inspection_report[0]['lr_date'])) : '';?></td>
 
         </tr>
 
@@ -91,7 +91,8 @@
                 <table align="center" cellpadding="5" style="width: 100%; border-collapse: collapse;" border="1">
                     <tr>
                         <td align="center" class="title_bold" style="width:auto;">Sr. No.</td>
-                        <td align="center" class="title_bold" style="width: 20em;">Item</td>
+                        <td align="center" class="title_bold" style="width: 14em;">Item</td>
+                        <td align="center" class="title_bold" style="width:auto;">Ord Qty</td>
                         <td align="center" class="title_bold" style="width:auto;">DC Qty</td>
                         <td align="center" class="title_bold" style="width:auto;">Recd Qty</td>
                         <td align="center" class="title_bold" style="width:auto;">Recd mtrl<br/>Dimension</td>
@@ -105,6 +106,7 @@
                             <tr>
                                 <td align="center"><?php echo $key+1; ?></td>
                                 <td align="left"><?php echo $val['item']; ?></td>
+                                <td align="center"><?php echo $val['qty']; ?></td>
                                 <td align="center"><?php echo $val['dc_qty']; ?></td>
                                 <td align="center"><?php echo $val['recd_qty']; ?></td>
                                 <td align="center"><?php echo $val['recd_material_dim']; ?></td>

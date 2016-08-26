@@ -1507,8 +1507,8 @@ class Admin_controller extends CI_Controller{
                 return '<input type="text" maxlength="200" value="'.$lr_no.'" name="lr_no" style="width:200px;">';
             });
             $crud->callback_field('format_no', function($post_array){
-                $format_no = (isset($this->data['format_no'])) ? $this->data['format_no'] : $post_array;
-                return '<input type="text" maxlength="200" value="'.$format_no.'" name="format_no" style="width:200px;">';
+                $format_no = (isset($this->data['format_no'])) ? $this->data['format_no'] : 'FORMAT NO.: QR/PROD/01/REV.NO.:03';
+                return '<input type="text" maxlength="200" value="'.$format_no.'" name="format_no" style="width:200px;" readonly="readonly" /> <input type="button" name="activate_format_no" id="activate_format_no" value="Edit" />';
             });
             $crud->callback_field('remarks', function($post_array){
                 $remarks = (isset($this->data['remarks'])) ? $this->data['remarks'] : $post_array;
@@ -2553,6 +2553,7 @@ class Admin_controller extends CI_Controller{
             if(isset($post_array['item' . $i]) && $post_array['item' . $i] != '') {
                 $additional_fields[] = array(
                     "item" => $post_array['item' . $i],
+                    "qty" => $post_array['qty' . $i],
                     "dc_qty" => $post_array['dc_qty' . $i],
                     "recd_qty" => $post_array['recd_qty' . $i],
                     "recd_material_dim" => $post_array['recd_material_dim' . $i],
@@ -2565,24 +2566,38 @@ class Admin_controller extends CI_Controller{
         $inspection_report_details = json_encode($additional_fields);
 
         //echo $inspection_report_details;
-
+//        echo "<pre>";
+//        print_r($post_array);
+//        exit;
+        /*
+        if(empty($post_array['lr_date'])){
+            
+            echo "HI";
+            exit;
+        }
+        else{
+            echo "BYE";
+            exit;
+        }
+        */
+        
         $update_inspection_report_array = array(
             "id" => $id,
             "supplier_id" => $post_array['supplier_id'],
             "supplier_po_id" => $post_array['supplier_po_id'],
-            "supplier_dc_no" => $post_array['supplier_dc_no'],
+            "supplier_dc_no" => (empty($post_array['supplier_dc_no']) ? '0000-00-00' : $post_array['supplier_dc_no']),
             "supplier_dc_date" => $post_array['supplier_dc_date'],
             "transporter_name" => $post_array['transporter_name'],
             "lr_no" => $post_array['lr_no'],
-            "lr_date" => $post_array['lr_date'],
+            "lr_date" => (empty($post_array['lr_date']) ? '0000-00-00' : $post_array['lr_date']),
             "inspection_report_details" => $inspection_report_details,
             "remarks" => $post_array['remarks'],
             "format_no" => mysql_real_escape_string($post_array['format_no']),
             "created_date" => $post_array['created_date']
         );
 
-        /*print_r($update_inspection_report_array);
-        exit;*/
+//        print_r($update_inspection_report_array);
+//        exit;
 
 
         if($post_array['add_record_flag']){
@@ -2592,9 +2607,9 @@ class Admin_controller extends CI_Controller{
             $result = $this->admin_model->updateRecord($update_inspection_report_array, 'inspection_report', 'id', $id);
         }
 
-        /*echo $result;
-
-        exit;*/
+//        echo $result;
+//
+//        exit;
     }
 
     public function previewInspectionReport(){
