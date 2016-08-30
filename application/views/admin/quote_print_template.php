@@ -172,7 +172,9 @@
                     ?>
                     <tr>
                         <td class="title_bold"><?php echo $val['title'];?> </td>
-                        <td class="content" colspan="3"><?php echo $val['value'];?></td>
+                        <td class="content" colspan="3">
+                            <?php echo $val['value'];?>
+                        </td>
                     </tr>
                     <?php
                 }
@@ -195,8 +197,17 @@
             ?>
             <tr>
                 <td class="title_bold" valign="top">Rate </td>
-                <td class="content" colspan="3"><?php echo $quote_miscellaneous[0]['rate']; ?> <?php echo $quote_miscellaneous[0]['rate_val']; ?>
-                    (Ex-Factory)
+                <td class="content" colspan="3">
+                    <?php echo $quote_miscellaneous[0]['rate']; ?> <?php echo $quote_miscellaneous[0]['rate_val']; ?>
+                    (Ex-Factory) <br>
+                    <?php
+                    if(!empty($quote_miscellaneous[0]['rate_additional_fields'])){
+                        $rate_additional_fields = @json_decode($quote_miscellaneous[0]['rate_additional_fields'], true);
+                        foreach($rate_additional_fields as $key_rate => $val_rate){
+                            echo $val_rate['rate_quote_value'] ." ". $quote_miscellaneous[0]['rate_val'] . " (Ex-Factory)<br>";
+                        }
+                    }
+                    ?>
                 </td>
             </tr>
         <?php
@@ -283,8 +294,6 @@
                 For KALP ENGINEERING<br>
                 Manoj Makwana<br>
                 (+91 9324282212)
-
-
 
             </td>
         </tr>

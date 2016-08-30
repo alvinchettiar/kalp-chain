@@ -512,8 +512,8 @@ class Admin_controller extends CI_Controller{
             $crud->set_table('quotation');
             $crud->set_subject('QUOTATION');
             $crud->columns('enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date');
-            $crud->add_fields('enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date', 'pitch', 'moc', 'link', 'attachment', 'roller', 'wip', 'bush', 'pin', 'qty', 'rate', 'pf', 'discount', 'taxes', 'mvat_cst', 'delivery', 'weight', 'notes');
-            $crud->edit_fields('quote_edit', 'enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date', 'pitch', 'moc', 'link', 'attachment', 'roller', 'wip', 'bush', 'pin', 'qty', 'rate', 'pf', 'discount', 'taxes', 'mvat_cst', 'delivery', 'weight', 'notes');
+            $crud->add_fields('enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date', 'pitch', 'chain_no', 'moc', 'link', 'attachment', 'roller', 'wip', 'bush', 'pin', 'qty', 'rate', 'pf', 'discount', 'taxes', 'mvat_cst', 'delivery', 'weight', 'notes');
+            $crud->edit_fields('quote_edit', 'enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date', 'pitch', 'chain_no', 'moc', 'link', 'attachment', 'roller', 'wip', 'bush', 'pin', 'qty', 'rate', 'pf', 'discount', 'taxes', 'mvat_cst', 'delivery', 'weight', 'notes');
             $crud->required_fields('enquiry_for', 'client_id', 'enquiry_no', 'enquiry_date', 'quotation_no', 'date');
             $crud->set_relation('client_id', 'clients', 'client_name');
             //$crud->set_relation('enquiry_no', 'enquiry', 'enquiry_no');
@@ -579,6 +579,7 @@ class Admin_controller extends CI_Controller{
                 $this->data['quotation_miscellaneous'] = $this->admin_details->get_user_column_one('quotation_no', $this->data['quotation_no'], 'quotation_miscellaneous');
                 if(!empty($this->data['quotation_miscellaneous'])) {
                     $this->data['pitch'] = $this->data['quotation_miscellaneous'][0]['pitch'];
+                    $this->data['chain_no'] = $this->data['quotation_miscellaneous'][0]['chain_no'];
                     $this->data['pitch_type'] = $this->data['quotation_miscellaneous'][0]['pitch_type'];
                     $this->data['pitch_details'] = $this->data['quotation_miscellaneous'][0]['pitch_details'];
                     $this->data['moc'] = $this->data['quotation_miscellaneous'][0]['moc'];
@@ -606,6 +607,7 @@ class Admin_controller extends CI_Controller{
                     $this->data['qty_type'] = $this->data['quotation_miscellaneous'][0]['qty_type'];
                     $this->data['rate'] = $this->data['quotation_miscellaneous'][0]['rate'];
                     $this->data['rate_type'] = $this->data['quotation_miscellaneous'][0]['rate_type'];
+                    $this->data['rate_additional_fields'] = $this->data['quotation_miscellaneous'][0]['rate_additional_fields'];
                     $this->data['pf'] = $this->data['quotation_miscellaneous'][0]['pf'];
                     $this->data['discount'] = $this->data['quotation_miscellaneous'][0]['discount'];
                     $this->data['taxes'] = $this->data['quotation_miscellaneous'][0]['taxes'];
@@ -643,6 +645,11 @@ class Admin_controller extends CI_Controller{
                 $html_elements .= '</select>';
                 $html_elements .= ' <input type="text" maxlength="200" value="' . $pitch_details . '" name="pitch_details" style="width:200px;"> ';*/
 
+                return $html_elements;
+            });
+            
+            $crud->callback_field('chain_no', function ($post_array) {
+                $html_elements = '<input type="text" maxlength="200" value="' . $this->data['chain_no'] . '" name="chain_no" style="width:200px;"> ';
                 return $html_elements;
             });
 
@@ -753,7 +760,7 @@ class Admin_controller extends CI_Controller{
                     }
                 }
                 $html_elements .= '</select><br><br>';
-                $html_elements .= ' - <input type="text" maxlength="200" value="' . $pin3 . '" name="pin3" style="width:200px;">';
+                $html_elements .= ' - <input type="text" maxlength="200" value="' . $pin3 . '" name="pin3" style="width:200px;"><br><br>';
 
                 //adding additional fields to the edit form
                 if(!empty($additional_fields)){
@@ -776,7 +783,7 @@ class Admin_controller extends CI_Controller{
                 /*$qty = (isset($this->data['qty'])) ? $this->data['qty'] : $post_array;*/
 
                 $html_elements = '<input type="text" maxlength="200" value="' . $this->data['enquiry_qty'] . '" name="qty" style="width:200px;"> ';
-
+                
                 $pitch_types = $this->getQuoteMiscellaneous('qty');
 
                 $html_elements .= '<select name="qty_type" style="width:100px;" >';
@@ -801,11 +808,16 @@ class Admin_controller extends CI_Controller{
             $crud->callback_field('rate', function ($post_array) {
                 $rate = (isset($this->data['rate'])) ? $this->data['rate'] : $post_array;
 
-                $html_elements = '<input type="text" maxlength="200" value="' . $rate . '" name="rate" style="width:200px;"> ';
-
+                $html_elements = '<input type="text" class="rate_quote" maxlength="200" value="' . $rate . '" name="rate" style="width:200px;"> ';
+                
+                $additional_fields = json_decode($this->data['rate_additional_fields'], true);
+                $additional_field_count = count($additional_fields);
+                
+                $html_elements .= '<input type="hidden" name="quote_rate_record_count" value="'.$additional_field_count.'" id="quote_rate_record_count" />';
+                
                 $pitch_types = $this->getQuoteMiscellaneous('rate');
                 $qty_types = $this->getQuoteMiscellaneous('qty');
-                $html_elements .= '<select name="rate_type" style="width:100px;">';
+                $html_elements .= '<select class="rate_type" name="rate_type" style="width:100px;">';
                 foreach ($qty_types as $key => $val) {
                     if($this->data['enquiry_qty_type']==$val['id']){
                         switch($val['type']){
@@ -833,8 +845,24 @@ class Admin_controller extends CI_Controller{
                     else{
                         $html_elements .= '<option value="' . $val['id'] . '">' . $val['type'] . '</option>';
                     }*/
+                    
+                    
                 }
-                $html_elements .= '</select> Ex-Factory';
+                $html_elements .= '</select> Ex-Factory <br>';
+                
+                //adding additional fields to the edit form
+                if(!empty($additional_fields)){
+
+                    foreach($additional_fields as $key => $val){
+                        $key++;
+                        $rate_quote_value = $val['rate_quote_value'];
+                        $html_elements .= '<input type="text" class="rate_quote" maxlength="200" value="' . $rate_quote_value . '" name="rate_quote'.$key.'" id="rate_quote'.$key.'" style="width:200px;"> ';
+                        $html_elements .= '<select class="rate_type" class="rate_type" name="rate_type" style="width:100px;">';
+                        $html_elements .= '<option value="' . $rate_details[0]['id'] . '" selected>' . $rate_details[0]['type'] . '</option>';
+                        $html_elements .= '</select> Ex-Factory <br>';
+
+                    }
+                }
 
                 return $html_elements;
             });
@@ -1021,6 +1049,7 @@ class Admin_controller extends CI_Controller{
 
 
             $pitch = $post_array['pitch'];
+            $chain_no = $post_array['chain_no'];
 //            $pitch_details = $post_array['pitch_details'];
             $moc = $post_array['moc'];
             $attachment = $post_array['attachment'];
@@ -1060,14 +1089,19 @@ class Admin_controller extends CI_Controller{
             $mvat_cst_type = $post_array['mvat_cst_type'];
             $weight_type = $post_array['weight_type'];
 
-        //looping/collecting dynamically generated data
+        //looping/collecting pin dynamically generated data
         $new_record_count = $post_array['new_record_count'];
         for($i = 1; $i <= $new_record_count; $i++){
             $additional_fields[] = array("title" => $post_array['title'.$i], "value" => $post_array['new_value'.$i]);
         }
-
-        //print_r();
-        //exit;
+        
+        //looping/collecting rate dynamically enerated data
+        $quote_rate_record_count = $post_array['quote_rate_record_count'];
+        for($i = 1; $i <= $quote_rate_record_count; $i++){
+            $rate_additional_fields[] = array("rate_quote_count" => 'rate_quote'.$i, "rate_quote_value" => $post_array['rate_quote'.$i]);
+        }
+//        print_r($rate_additional_fields);
+//        exit;
 
         $quotation_vals = array(
             'quotation_no' => $quotation_no,
@@ -1082,6 +1116,7 @@ class Admin_controller extends CI_Controller{
         $quotation_miscellaneous_vals_add =  array(
             "quotation_no" => addslashes($quotation_no),
             'pitch' => addslashes($pitch),
+            'chain_no' => addslashes($chain_no),
 //            'pitch_details' => $pitch_details,
             'moc' => $moc,
             'attachment' => $attachment,
@@ -1094,6 +1129,7 @@ class Admin_controller extends CI_Controller{
             'wip2' => $wip2,
             'qty' => $qty,
             'rate' => $rate,
+            'rate_additional_fields' => json_encode($rate_additional_fields),
             'pf' => $pf,
             'discount' => $discount,
             'taxes' => $taxes,
@@ -1123,6 +1159,7 @@ class Admin_controller extends CI_Controller{
 
         $quotation_miscellaneous_vals_edit =  array(
             'pitch' => $pitch,
+            'chain_no' => $chain_no,
 //            'pitch_details' => $pitch_details,
             'moc' => $moc,
             'attachment' => $attachment,
@@ -1135,6 +1172,7 @@ class Admin_controller extends CI_Controller{
             'wip2' => $wip2,
             'qty' => $qty,
             'rate' => $rate,
+            'rate_additional_fields' => json_encode($rate_additional_fields),
             'pf' => $pf,
             'discount' => $discount,
             'taxes' => $taxes,

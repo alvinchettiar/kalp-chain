@@ -152,7 +152,10 @@ ALTER TABLE `quotation_miscellaneous` ADD `pin3` VARCHAR(100) NULL AFTER `pin2`;
 
 ALTER TABLE `quotation_miscellaneous` ADD `chain_no` VARCHAR(100) NULL AFTER `pitch_details`;
     
-    
+-- 29/08/2016
+                
+ALTER TABLE `quotation_miscellaneous` ADD `rate_additional_fields` TEXT NULL DEFAULT NULL AFTER `rate_type`;                
+   
 SQL;
 
     }

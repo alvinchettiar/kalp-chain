@@ -37,8 +37,10 @@
     <script>
         $(function(){
             $('#pin_field_box').append('<div id="add_record_button"><input type="button" name="add_record" id="add_record" value="Add Record" /></div>');
+            $('#rate_field_box').append('<div id="add_rate_record_button"><input type="button" name="add_rate_record" id="add_rate_record" value="Add Record" /></div>');
             var title = 0;
             var additional_field_count = parseInt($('#new_record_count').val());
+            
 //            console.log(additional_field_count);
             $('#add_record').click(function(){
                 title++;
@@ -417,11 +419,14 @@
 $(function(){
    var rate = document.getElementsByName('rate');
 //   console.log(rate);
-    
-    $('input[name=rate]').blur(function(err, res){
-       $(this).val(accounting.formatNumber($(this).val(), 3, ""));
+    $(document).on('blur', '.rate_quote', function(){
+        $(this).val(accounting.formatNumber($(this).val(), 2));
     });
-    
+    /*
+    $('input[name=rate]').blur(function(err, res){
+       $(this).val(accounting.formatNumber($(this).val(), 2));
+    });
+    */
     $('.supp_po_qty').blur(function(err, res){
        $(this).val(accounting.formatNumber($(this).val(), 3, ""));
     });
@@ -492,6 +497,34 @@ $(function(){
    $('#activate_format_no').click(function(data){
        $('input[name=format_no]').removeAttr('readonly');
    });
+   
+   
+   var rate_quote_count = 0;
+   var additional_field_count = parseInt($('#quote_rate_record_count').val());
+   $('#add_rate_record').click(function(){
+                rate_quote_count++;
+                additional_field_count++;
+                var rate_type = document.getElementsByName('rate_type');
+                var rate_type_text = rate_type[0].options[0].text;
+                var rate_type_val = rate_type[0].options[0].value;
+                
+                //$('#add_record_button').prepend('<input type="button" name="add_record" id="add_record" value="Add Record" />');
+                $('#add_rate_record_button').append(
+            '<br><br>'+
+'<div class="form-input-box">'+
+'<input type="input" class="rate_quote" name="rate_quote'+rate_quote_count+'" id="rate_quote'+rate_quote_count+'" placeholder="Rate" style="width: 200px; height:23px;" />'+
+' <select class="rate_type" name="rate_type" style="width:100px;">'+
+'<option value="'+rate_type_val+'">'+rate_type_text+'</option></select></div><br><span>&nbsp;</span>');
+
+    
+                if(additional_field_count <= 0) {
+                    $('#quote_rate_record_count').val(rate_quote_count);
+                }
+                else{
+                    $('#quote_rate_record_count').val(additional_field_count);
+                }
+    
+            });
 });
 </script>
 

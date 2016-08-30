@@ -10,10 +10,9 @@ class Migration_Insertdata extends CI_Migration {
 
     public function up(){
 
-        $sql = <<<SQL
-        INSERT INTO `kalp`.`qty` (`id`, `type`) VALUES (NULL, 'nos');
-
-        SQL;
+<<<SQL
+INSERT INTO `kalp`.`qty` (`id`, `type`) VALUES (NULL, 'nos');
+SQL;
 
     }
 
