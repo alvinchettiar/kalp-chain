@@ -810,10 +810,15 @@ class Admin_controller extends CI_Controller{
 
                 $html_elements = '<input type="text" class="rate_quote" maxlength="200" value="' . $rate . '" name="rate" style="width:200px;"> ';
                 
-                $additional_fields = json_decode($this->data['rate_additional_fields'], true);
-                $additional_field_count = count($additional_fields);
+                $rate_additional_fields = json_decode($this->data['rate_additional_fields'], true);
+                $rate_additional_field_count = count($rate_additional_fields);
                 
-                $html_elements .= '<input type="hidden" name="quote_rate_record_count" value="'.$additional_field_count.'" id="quote_rate_record_count" />';
+//                echo "<pre>";
+//                print_r($rate_additional_fields);
+//                echo "COUNT : " . $rate_additional_field_count;
+                //exit;
+                
+                $html_elements .= '<input type="hidden" name="quote_rate_record_count" value="'.$rate_additional_field_count.'" id="quote_rate_record_count" />';
                 
                 $pitch_types = $this->getQuoteMiscellaneous('rate');
                 $qty_types = $this->getQuoteMiscellaneous('qty');
@@ -851,9 +856,9 @@ class Admin_controller extends CI_Controller{
                 $html_elements .= '</select> Ex-Factory <br>';
                 
                 //adding additional fields to the edit form
-                if(!empty($additional_fields)){
+                if(!empty($rate_additional_fields)){
 
-                    foreach($additional_fields as $key => $val){
+                    foreach($rate_additional_fields as $key => $val){
                         $key++;
                         $rate_quote_value = $val['rate_quote_value'];
                         $html_elements .= '<input type="text" class="rate_quote" maxlength="200" value="' . $rate_quote_value . '" name="rate_quote'.$key.'" id="rate_quote'.$key.'" style="width:200px;"> ';

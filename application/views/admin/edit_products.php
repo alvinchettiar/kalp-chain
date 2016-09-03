@@ -512,7 +512,7 @@ $(function(){
                 $('#add_rate_record_button').append(
             '<br><br>'+
 '<div class="form-input-box">'+
-'<input type="input" class="rate_quote" name="rate_quote'+rate_quote_count+'" id="rate_quote'+rate_quote_count+'" placeholder="Rate" style="width: 200px; height:23px;" />'+
+'<input type="input" class="rate_quote" name="rate_quote'+additional_field_count+'" id="rate_quote'+additional_field_count+'" placeholder="Rate" style="width: 200px; height:23px;" />'+
 ' <select class="rate_type" name="rate_type" style="width:100px;">'+
 '<option value="'+rate_type_val+'">'+rate_type_text+'</option></select></div><br><span>&nbsp;</span>');
 

@@ -52,7 +52,7 @@
                 ?>
                 <tr>
                     <td align="center"><?php echo $val['pn']; ?></td>
-                    <td align="center"><?php echo $val['pq']; ?></td>
+                    <td align="center"><?php echo $val['rq']; ?></td>
                     <td align="center"><?php echo $val['pq']; ?></td>
                     <td align="center"><?php echo $val['bq']; ?></td>
 
